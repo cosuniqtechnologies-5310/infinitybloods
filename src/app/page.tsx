@@ -12,6 +12,10 @@ import {
   Play, ChevronRight, Sparkles, Heart,
 } from 'lucide-react';
 
+import dynamic from 'next/dynamic';
+
+const BloodCellCanvas = dynamic(() => import('./components/BloodCell'), { ssr: false });
+
 /* ── Design tokens ──────────────────────────────────────── */
 const D  = '#080000';   // dark bg
 const L  = '#ffffff';   // light bg
@@ -51,31 +55,28 @@ export default function Home() {
           1 — HERO  ░ DARK
       ═══════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden flex flex-col min-h-[calc(100vh-104px)]" style={{ background: D }}>
-        {/* Hero image fills right half */}
-        <div className="absolute inset-0 z-0">
-          <Image src="/hero.jpg" alt="Tech platform" fill className="object-cover opacity-25" priority />
-          <div className="absolute inset-0" style={{ background: `linear-gradient(90deg, ${D} 40%, transparent 100%)` }} />
-          <div className="absolute inset-0" style={{ background: `linear-gradient(0deg, ${D} 0%, transparent 60%)` }} />
-        </div>
+        {/* 3D WebGL Blood Cells Feature */}
+        <BloodCellCanvas />
+        <div className="absolute inset-0 z-0" style={{ background: `linear-gradient(90deg, ${D} 40%, rgba(8,0,0,0) 100%)` }} />
 
         {/* Glows */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-[120px] pointer-events-none z-0"
-          style={{ background: 'radial-gradient(circle, rgba(219,0,0,0.15) 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(219,0,0,0.15) 0%, rgba(219,0,0,0) 70%)' }} />
 
-        <div className="flex-1 flex flex-col justify-center w-full max-w-7xl mx-auto px-6 py-12 relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="flex-1 flex flex-col justify-center w-full max-w-7xl mx-auto px-6 py-6 relative z-10">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
 
             {/* Left: copy */}
             <div>
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border mb-8 text-sm font-semibold"
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-6 text-xs font-semibold"
                 style={{ borderColor: '#3a0000', backgroundColor: '#120000', color: R }}>
-                <Heart className="w-3.5 h-3.5 fill-current animate-pulse" />
+                <Heart className="w-3 h-3 fill-current animate-pulse" />
                 Code to save lives
               </div>
 
-              <h1 className="font-display font-black tracking-tight leading-[1.05] mb-6"
-                style={{ fontSize: 'clamp(2.8rem, 5.5vw, 4.5rem)', color: DH }}>
+              <h1 className="font-display font-black tracking-tight leading-[1.05] mb-5"
+                style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: DH }}>
                 Grow your skills.{' '}
                 <span style={{ backgroundClip:'text', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
                   backgroundImage:`linear-gradient(135deg, ${R} 0%, #750000 100%)` }}>
@@ -83,18 +84,18 @@ export default function Home() {
                 </span>
               </h1>
 
-              <p className="text-lg leading-relaxed mb-10" style={{ color: DB, maxWidth: '30rem' }}>
+              <p className="text-base leading-relaxed mb-8" style={{ color: DB, maxWidth: '28rem' }}>
                 Thousands face critical risks daily due to blood shortages and circulation issues. Master modern technology by building real platforms that connect donors with those in need.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 mb-12">
+              <div className="flex flex-col sm:flex-row gap-4 mb-10">
                 <Link href="/join"
-                  className="h-14 px-8 rounded-full font-bold flex items-center gap-2 justify-center transition-all hover:-translate-y-1"
+                  className="h-12 px-6 rounded-full font-bold flex items-center gap-2 justify-center transition-all hover:-translate-y-1 text-sm"
                   style={{ background: R, color: '#fff1f1', boxShadow: '0 0 28px rgba(219,0,0,0.4)' }}>
-                  <Play className="w-4 h-4 fill-current" /> Start Building
+                  <Play className="w-3.5 h-3.5 fill-current" /> Start Building
                 </Link>
                 <Link href="/programs"
-                  className="h-14 px-8 rounded-full font-semibold flex items-center gap-2 justify-center transition-all hover:-translate-y-1"
+                  className="h-12 px-6 rounded-full font-semibold flex items-center gap-2 justify-center transition-all hover:-translate-y-1 text-sm"
                   style={{ background: DIB, border: `1px solid #3a0000`, color: DH }}>
                   Explore Programs <ChevronRight className="w-4 h-4" />
                 </Link>
@@ -104,64 +105,64 @@ export default function Home() {
               <div className="flex items-center gap-3 flex-wrap">
                 <div className="flex -space-x-2">
                   {['#db0000','#a80000','#c10000','#8e0000'].map((c, i) => (
-                    <div key={i} className="w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold"
+                    <div key={i} className="w-7 h-7 rounded-full border-2 flex items-center justify-center text-[10px] font-bold"
                       style={{ background: c, borderColor: D, color: '#fff' }}>
-                      <Heart className="w-3 h-3 fill-current" />
+                      <Heart className="w-2.5 h-2.5 fill-current" />
                     </div>
                   ))}
                 </div>
                 <div>
-                  <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-current" style={{ color: R }} />)}</div>
-                  <p className="text-xs mt-0.5" style={{ color: DM }}>Join 200+ developers making an impact</p>
+                  <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} className="w-3 h-3 fill-current" style={{ color: R }} />)}</div>
+                  <p className="text-[11px] mt-0.5" style={{ color: DM }}>Join 200+ developers making an impact</p>
                 </div>
               </div>
             </div>
 
             {/* Right: floating stat cards */}
-            <div className="hidden md:block relative h-[460px]">
+            <div className="hidden md:block relative h-[380px] scale-95 origin-right">
               {/* Floating card 1 */}
-              <div className="absolute top-6 right-6 rounded-2xl p-5 w-52 shadow-2xl backdrop-blur-md animate-float-delayed"
+              <div className="absolute top-2 right-6 rounded-xl p-4 w-48 shadow-2xl backdrop-blur-md animate-float-delayed"
                 style={{ background: 'rgba(15,0,0,0.85)', border: `1px solid ${DBR}` }}>
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: DIB, color: R }}><Zap className="w-4 h-4" /></div>
-                  <span className="text-xs font-bold" style={{ color: DB }}>Critical Need</span>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: DIB, color: R }}><Zap className="w-3.5 h-3.5" /></div>
+                  <span className="text-[11px] font-bold" style={{ color: DB }}>Critical Need</span>
                 </div>
-                <p className="text-2xl font-display font-black" style={{ color: DH }}>2 Seconds</p>
-                <div className="mt-3 h-1.5 rounded-full overflow-hidden" style={{ background: DBR }}>
+                <p className="text-xl font-display font-black" style={{ color: DH }}>2 Seconds</p>
+                <div className="mt-2 h-1 rounded-full overflow-hidden" style={{ background: DBR }}>
                   <div className="h-full rounded-full animate-pulse" style={{ width: '100%', background: R }} />
                 </div>
-                <p className="text-xs mt-1" style={{ color: DM }}>Someone needs blood</p>
+                <p className="text-[11px] mt-1" style={{ color: DM }}>Someone needs blood</p>
               </div>
 
               {/* Floating card 2 */}
-              <div className="absolute top-1/2 left-4 -translate-y-1/2 rounded-2xl p-5 w-48 shadow-2xl animate-float-fast"
+              <div className="absolute top-1/2 left-0 -translate-y-1/2 rounded-xl p-4 w-44 shadow-2xl animate-float-fast"
                 style={{ background: R }}>
-                <Heart className="w-7 h-7 text-white mb-3 fill-current" />
-                <p className="font-display font-black text-xl text-white">Save Lives</p>
-                <p className="text-white/80 text-sm mt-1">Connect donors faster</p>
+                <Heart className="w-6 h-6 text-white mb-2 fill-current" />
+                <p className="font-display font-black text-lg text-white">Save Lives</p>
+                <p className="text-white/80 text-[11px] mt-0.5">Connect donors faster</p>
               </div>
 
               {/* Floating card 3 */}
-              <div className="absolute bottom-8 right-10 rounded-2xl p-5 w-56 shadow-2xl animate-float"
+              <div className="absolute bottom-2 right-10 rounded-xl p-4 w-52 shadow-2xl animate-float"
                 style={{ background: 'rgba(15,0,0,0.9)', border: `1px solid ${DBR}` }}>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold uppercase tracking-wider" style={{ color: DM }}>Live Impact</span>
-                  <span className="w-2 h-2 rounded-full animate-ping" style={{ background: R }} />
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: DM }}>Live Impact</span>
+                  <span className="w-1.5 h-1.5 rounded-full animate-ping" style={{ background: R }} />
                 </div>
                 {['Donor Matched in NY','Urgent Request Filled','New Blood Drive'].map((p, i) => (
-                  <div key={p} className="flex items-center gap-2 py-1.5 border-b last:border-0" style={{ borderColor: DBR }}>
-                    <div className="w-1.5 h-1.5 rounded-full" style={{ background: i === 0 ? '#22c55e' : R }} />
-                    <span className="text-xs font-medium" style={{ color: DH }}>{p}</span>
+                  <div key={p} className="flex items-center gap-2 py-1 border-b last:border-0" style={{ borderColor: DBR }}>
+                    <div className="w-1 h-1 rounded-full" style={{ background: i === 0 ? '#22c55e' : R }} />
+                    <span className="text-[11px] font-medium" style={{ color: DH }}>{p}</span>
                   </div>
                 ))}
               </div>
 
               {/* Floating card 4 */}
-              <div className="absolute top-16 left-1/2 -translate-x-1/2 rounded-xl px-4 py-2 shadow-xl animate-float"
+              <div className="absolute top-12 left-1/2 -translate-x-1/2 rounded-lg px-3 py-1.5 shadow-xl animate-float"
                 style={{ background: 'rgba(15,0,0,0.8)', border: `1px solid ${DBR}` }}>
                 <div className="flex items-center gap-2">
-                  <GitBranch className="w-4 h-4" style={{ color: R }} />
-                  <span className="text-xs font-mono" style={{ color: DH }}>main ← feature/donor-match</span>
+                  <GitBranch className="w-3.5 h-3.5" style={{ color: R }} />
+                  <span className="text-[11px] font-mono" style={{ color: DH }}>main ← feature/donor-match</span>
                 </div>
               </div>
             </div>
@@ -173,13 +174,13 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x" style={{ '--tw-divide-opacity': 1 } as React.CSSProperties}>
               {STATS.map(s => (
-                <div key={s.label} className="flex items-center gap-3 py-5 px-6 first:pl-0">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: DIB, color: R }}>
+                <div key={s.label} className="flex items-center gap-3 py-3 md:py-4 px-6 first:pl-0">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: DIB, color: R }}>
                     {s.icon}
                   </div>
                   <div>
-                    <p className="font-display font-black text-xl" style={{ color: DH }}>{s.value}</p>
-                    <p className="text-xs" style={{ color: DM }}>{s.label}</p>
+                    <p className="font-display font-black text-lg leading-none mb-0.5" style={{ color: DH }}>{s.value}</p>
+                    <p className="text-[10px]" style={{ color: DM }}>{s.label}</p>
                   </div>
                 </div>
               ))}
@@ -189,59 +190,171 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════════════════════
-          2 — PHILOSOPHY  ░ LIGHT
+          2 — PHILOSOPHY (ARC LAYOUT)  ░ LIGHT
       ═══════════════════════════════════════════════════ */}
-      <section className="py-28" style={{ background: L, borderTop: `1px solid ${LBR}` }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+      <section className="py-12 md:py-16 relative overflow-hidden flex flex-col justify-center min-h-[calc(100vh-100px)]" style={{ background: L, borderTop: `1px solid ${LBR}` }}>
+        
+        {/* Desktop Scattered Stats (Full screen width) */}
+        <div className="hidden lg:block absolute inset-0 pointer-events-none z-0">
+          <div className="absolute top-[35%] left-[4vw] xl:left-[8vw] text-left">
+            <p className="font-display font-black text-6xl xl:text-7xl mb-1 opacity-20" style={{ color: LH }}>12+</p>
+            <p className="text-[11px] font-semibold uppercase tracking-widest opacity-40" style={{ color: DM }}>Years of Experience</p>
+          </div>
+          
+          <div className="absolute top-[15%] right-[4vw] xl:right-[8vw] text-right">
+            <p className="font-display font-black text-6xl xl:text-7xl mb-1 opacity-20" style={{ color: LH }}>25+</p>
+            <p className="text-[11px] font-semibold uppercase tracking-widest opacity-40" style={{ color: DM }}>Real Projects</p>
+          </div>
+          
+          <div className="absolute bottom-[20%] left-[6vw] xl:left-[12vw] text-left">
+            <p className="font-display font-black text-6xl xl:text-7xl mb-1 opacity-20" style={{ color: LH }}>98%</p>
+            <p className="text-[11px] font-semibold uppercase tracking-widest opacity-40" style={{ color: DM }}>Developer Success</p>
+          </div>
+          
+          <div className="absolute bottom-[25%] right-[6vw] xl:right-[12vw] text-right">
+            <p className="font-display font-black text-6xl xl:text-7xl mb-1 opacity-20" style={{ color: LH }}>1:1</p>
+            <p className="text-[11px] font-semibold uppercase tracking-widest opacity-40" style={{ color: DM }}>Mentorship Support</p>
+          </div>
+        </div>
 
-            {/* Image side */}
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl order-2 md:order-1" style={{ aspectRatio: '4/3' }}>
-              <Image src="/team.jpg" alt="Team collaboration" fill className="object-cover" />
-              {/* Overlay badge */}
-              <div className="absolute bottom-5 left-5 right-5 rounded-2xl p-4 backdrop-blur-md flex items-center gap-3"
-                style={{ background: 'rgba(8,0,0,0.75)', border: '1px solid rgba(219,0,0,0.3)' }}>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: R }}>
-                  <Shield className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <p className="font-bold text-sm" style={{ color: '#fff1f1' }}>Mentor-led Learning</p>
-                  <p className="text-xs" style={{ color: '#a08080' }}>Real builders guide every step</p>
-                </div>
+        <div className="max-w-6xl mx-auto px-6 relative z-10 flex flex-col items-center text-center">
+          
+          {/* The Arc Graphic & Images */}
+          <div className="relative w-full max-w-[1000px] h-[250px] md:h-[310px] mb-4 flex justify-center pointer-events-none mx-auto">
+            
+            {/* Image 1: Left-most */}
+            <div className="absolute left-[10%] bottom-[10%] md:bottom-[15%] w-20 h-36 md:w-32 md:h-52 overflow-hidden shadow-xl -rotate-[15deg] pointer-events-auto transition-transform hover:scale-105 hover:-rotate-[10deg] origin-bottom border-4 border-white -translate-x-1/2 z-10 rounded-[5px]">
+              <Image src="/team.jpg" alt="Student" fill className="object-cover" />
+            </div>
+            
+            {/* Image 2: Mid-left */}
+            <div className="absolute left-[30%] top-[25%] md:top-[20%] w-24 h-44 md:w-36 md:h-64 overflow-hidden shadow-2xl -rotate-[10deg] pointer-events-auto transition-transform hover:scale-105 hover:-rotate-[5deg] origin-bottom border-4 border-white -translate-x-1/2 z-20 rounded-[5px]">
+              <Image src="/hero.jpg" alt="Mentorship" fill className="object-cover" />
+            </div>
+            
+            {/* Image 3: Center (highest) */}
+            <div className="absolute left-1/2 top-0 md:-top-5 w-28 h-52 md:w-44 md:h-[19rem] overflow-hidden shadow-2xl z-30 pointer-events-auto transition-transform hover:scale-105 origin-bottom border-4 border-white -translate-x-1/2 rounded-[5px]">
+              <Image src="/team.jpg" alt="Founder" fill className="object-cover" />
+            </div>
+            
+            {/* Image 4: Mid-right */}
+            <div className="absolute left-[70%] top-[25%] md:top-[20%] w-24 h-44 md:w-36 md:h-64 overflow-hidden shadow-2xl rotate-[10deg] pointer-events-auto transition-transform hover:scale-105 hover:rotate-[5deg] origin-bottom border-4 border-white -translate-x-1/2 z-20 rounded-[5px]">
+              <Image src="/hero.jpg" alt="Builder" fill className="object-cover" />
+            </div>
+            
+            {/* Image 5: Right-most */}
+            <div className="absolute left-[90%] bottom-[10%] md:bottom-[15%] w-20 h-36 md:w-32 md:h-52 overflow-hidden shadow-xl rotate-[15deg] pointer-events-auto transition-transform hover:scale-105 hover:rotate-[10deg] origin-bottom border-4 border-white -translate-x-1/2 z-10 rounded-[5px]">
+              <Image src="/team.jpg" alt="Launch" fill className="object-cover" />
+            </div>
+          </div>
+
+          {/* Text Content */}
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest mb-6 border relative bg-white z-20 shadow-sm"
+            style={{ borderColor: LBR, color: '#444' }}>
+            <Zap className="w-3.5 h-3.5" style={{ color: R }} /> Founder Mindset
+          </div>
+          
+          <h2 className="font-display font-black leading-[1.05] mb-4 max-w-4xl relative z-20"
+            style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: LH, letterSpacing: '-0.03em' }}>
+            Learn. Build. Conquer.
+          </h2>
+          
+          <p className="mb-8 text-base md:text-lg leading-relaxed max-w-2xl mx-auto relative z-20" style={{ color: LB }}>
+            We believe meaningful tech education starts with building. Our goal is to train you to think like a founder, understand the business behind the code, and launch scalable startups.
+          </p>
+
+          <Link href="/about" className="relative z-20 inline-flex h-12 pl-6 pr-1.5 rounded-full font-bold items-center gap-4 justify-center transition-all hover:-translate-y-1 shadow-md hover:shadow-lg text-sm" 
+            style={{ background: '#f5f0f0', color: '#111', border: `1px solid ${LBR}` }}>
+            Learn More About Us 
+            <div className="w-9 h-9 rounded-full flex items-center justify-center transition-colors" style={{ background: '#221' }}>
+              <ArrowRight className="w-4 h-4 text-white" />
+            </div>
+          </Link>
+
+          {/* Mobile Stats Row (Hidden on Desktop) */}
+          <div className="w-full max-w-full mx-auto mt-12 pt-8 border-t grid grid-cols-2 gap-6 lg:hidden" style={{ borderColor: LBR }}>
+            {[
+              { value: '12+', label: 'Years of Experience' },
+              { value: '25+', label: 'Real Projects' },
+              { value: '98%', label: 'Developer Success' },
+              { value: '1:1', label: 'Mentorship Support' },
+            ].map(stat => (
+              <div key={stat.label} className="text-center">
+                <p className="font-display font-black text-3xl mb-1" style={{ color: LH }}>{stat.value}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: DM }}>{stat.label}</p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════
+          3 — FOUNDER & CEO  ░ DARK
+      ═══════════════════════════════════════════════════ */}
+      <section className="py-12 md:py-16 relative overflow-hidden flex flex-col justify-center" style={{ background: D, borderTop: '1px solid #1a0000' }}>
+        <div className="max-w-6xl mx-auto px-6 relative z-10 flex flex-col items-center text-center">
+          
+          {/* Badge with SVG squiggles */}
+          <div className="relative mb-6">
+            {/* Decorative Sparkles/Squiggles */}
+            <div className="absolute -top-6 -right-8" style={{ color: R }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" opacity="0.5"/>
+              </svg>
+            </div>
+            <div className="absolute -bottom-4 -left-10" style={{ color: R }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M12 2v4M4.93 4.93l2.83 2.83" opacity="0.4"/>
+              </svg>
+            </div>
+            
+            <span className="inline-block px-5 py-1.5 rounded-full text-[10px] md:text-xs font-bold border tracking-wider shadow-xl" style={{ borderColor: '#3a0000', color: DH, background: '#120000' }}>
+              Hello!
+            </span>
+          </div>
+
+          {/* Heading */}
+          <h2 className="font-display font-black leading-[1.05] mb-12 z-10 relative" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: DH, letterSpacing: '-0.03em' }}>
+            I'm <span style={{ color: R }}>Gowtham</span>,<br />
+            Founder & CEO
+          </h2>
+
+          {/* Center Subject Container */}
+          <div className="relative w-full max-w-[320px] mx-auto mt-0">
+            
+            {/* Floating Left Testimonial (Bulletproof: always completely outside the left edge) */}
+            <div className="absolute top-4 lg:top-12 right-full mr-8 xl:mr-16 text-left w-64 md:w-72 z-20 hidden lg:block p-6 rounded-3xl backdrop-blur-xl border shadow-2xl"
+              style={{ background: 'rgba(15,0,0,0.65)', borderColor: 'rgba(255,255,255,0.08)' }}>
+              <div className="text-4xl font-serif leading-none mb-2" style={{ color: R }}>"</div>
+              <p className="text-[11px] md:text-sm leading-relaxed font-medium mb-4" style={{ color: '#e5d5d5' }}>
+                Gowtham's visionary leadership and exceptional technical architecture ensure the platform's incredible success. 
+                <br/><br/><span style={{ color: R }}>Highly Recommended</span>
+              </p>
             </div>
 
-            {/* Text side */}
-            <div className="order-1 md:order-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
-                style={{ background: '#ffe8e8', color: R }}>
-                <Zap className="w-3 h-3" /> Founder Mindset
+            {/* Floating Right Stats (Bulletproof: always completely outside the right edge) */}
+            <div className="absolute top-12 lg:top-20 left-full ml-8 xl:ml-16 text-right w-48 md:w-56 z-20 hidden lg:flex flex-col items-end p-6 rounded-3xl backdrop-blur-xl border shadow-2xl"
+              style={{ background: 'rgba(15,0,0,0.65)', borderColor: 'rgba(255,255,255,0.08)' }}>
+              <div className="flex justify-end gap-1 mb-3">
+                {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-current" style={{ color: R }} />)}
               </div>
-              <h2 className="font-display font-black leading-tight mb-6"
-                style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: LH }}>
-                Don't just learn to code. Build a tech empire.
-              </h2>
-              <p className="mb-8 leading-relaxed text-base" style={{ color: LB }}>
-                We don't train you to just build a single application. We train you to think like a founder, understand the business behind the code, and build scalable startups that can grow into tech giants.
-              </p>
-              <ul className="space-y-4 mb-10">
-                {[
-                  ['Develop a relentless founder\'s mindset.',      <BrainCircuit key="1" className="w-4 h-4" />],
-                  ['Build scalable startups, not just single apps.',<Package key="2" className="w-4 h-4" />],
-                  ['Master business and market strategies.',        <TrendingUp key="3" className="w-4 h-4" />],
-                  ['Solve massive, real-world problems.',           <Globe2 key="4" className="w-4 h-4" />],
-                  ['Launch and grow your own tech empire.',         <Rocket key="5" className="w-4 h-4" />],
-                ].map(([text, icon]) => (
-                  <li key={text as string} className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: LIB, color: R }}>
-                      {icon}
-                    </div>
-                    <span className="font-semibold text-sm" style={{ color: LH }}>{text as string}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link href="/about" className="inline-flex items-center gap-2 font-bold text-sm transition-colors group" style={{ color: R }}>
-                Discover Our Approach <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <p className="font-display font-black text-3xl md:text-4xl mb-1" style={{ color: '#ffffff' }}>12 Years</p>
+              <p className="text-xs uppercase tracking-wider font-bold" style={{ color: '#e5d5d5' }}>Experience</p>
+            </div>
+
+            {/* Subject Image */}
+            <div className="relative w-60 h-60 md:w-[320px] md:h-[320px] mx-auto rounded-full overflow-hidden border-[8px] md:border-[10px] shadow-2xl z-10" style={{ borderColor: D }}>
+               <Image src="/team.jpg" alt="Founder" fill className="object-cover object-top" />
+            </div>
+
+            {/* Floating CTA Pill */}
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex items-center p-1.5 rounded-full shadow-[0_0_30px_rgba(0,0,0,0.5)] backdrop-blur-xl z-20 border"
+              style={{ background: 'rgba(20,0,0,0.8)', borderColor: '#4a0000' }}>
+              <Link href="#portfolio" className="px-6 py-2.5 rounded-full font-bold text-[13px] flex items-center gap-2 transition-all hover:scale-105 shadow-md" style={{ background: R, color: '#fff' }}>
+                Portfolio <ArrowRight className="w-3.5 h-3.5 -rotate-45" />
+              </Link>
+              <Link href="#contact" className="px-6 py-2.5 rounded-full font-bold text-[13px] transition-colors hover:text-white whitespace-nowrap" style={{ color: DB }}>
+                Hire me
               </Link>
             </div>
           </div>
@@ -249,44 +362,44 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════════════════════
-          3 — HOW IT WORKS  ░ DARK
+          4 — HOW IT WORKS  ░ LIGHT RED
       ═══════════════════════════════════════════════════ */}
-      <section className="py-28" style={{ background: D, borderTop: '1px solid #1a0000' }}>
+      <section className="py-12 md:py-16" style={{ background: '#fff5f5', borderTop: `1px solid ${LBR}` }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto mb-20">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
-              style={{ background: DIB, color: R, border: `1px solid #3a0000` }}>
-              <Zap className="w-3 h-3" /> Process
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6"
+              style={{ background: '#ffe8e8', color: R, border: `1px solid #ffd0d0` }}>
+              <Zap className="w-3.5 h-3.5" /> Process
             </div>
             <h2 className="font-display font-black leading-tight mb-4"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: DH }}>
-              From zero to builder — step by step.
+              style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: LH, letterSpacing: '-0.02em' }}>
+              Learn. Build. Ship.
             </h2>
-            <p style={{ color: DB }}>A structured path from learning fundamentals to launching real products.</p>
+            <p className="text-lg" style={{ color: LB }}>A structured path from learning fundamentals to launching real products.</p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
             {/* Connector line */}
-            <div className="hidden lg:block absolute top-14 left-[12.5%] right-[12.5%] h-px" style={{ background: `linear-gradient(90deg, transparent, ${R}, ${R}, transparent)` }} />
+            <div className="hidden lg:block absolute top-16 left-[12.5%] right-[12.5%] h-px" style={{ background: `linear-gradient(90deg, transparent, #ffbaba, #ffbaba, transparent)` }} />
 
             {[
-              { num:'01', title:'Learn',       desc:'Structured, mentor-led training on the tech that matters.',    icon:<BookOpen className="w-7 h-7" />,     color: '#3a0000' },
-              { num:'02', title:'Build',       desc:'Apply skills immediately by building real apps and products.', icon:<TerminalSquare className="w-7 h-7" />,color: '#5a0000' },
-              { num:'03', title:'Collaborate', desc:'Work in teams just like a real product company.',              icon:<Users className="w-7 h-7" />,         color: '#750000' },
+              { num:'01', title:'Learn',       desc:'Structured, mentor-led training on the tech that matters.',    icon:<BookOpen className="w-7 h-7" />,     color: '#ff4d4d' },
+              { num:'02', title:'Build',       desc:'Apply skills immediately by building real apps and products.', icon:<TerminalSquare className="w-7 h-7" />,color: '#ff3333' },
+              { num:'03', title:'Collaborate', desc:'Work in teams just like a real product company.',              icon:<Users className="w-7 h-7" />,         color: '#e60000' },
               { num:'04', title:'Contribute',  desc:'Ship things that solve real problems and help real people.',   icon:<Globe2 className="w-7 h-7" />,        color: R },
             ].map((step, i) => (
-              <div key={step.num} className="relative p-7 rounded-2xl text-center" style={DC}>
+              <div key={step.num} className="relative p-8 rounded-3xl text-center shadow-lg transition-transform hover:-translate-y-1" style={LC}>
                 {/* Step number */}
-                <div className="text-5xl font-display font-black absolute top-3 right-4 select-none" style={{ color: '#180000' }}>{step.num}</div>
+                <div className="text-6xl font-display font-black absolute top-4 right-5 select-none" style={{ color: '#fff0f0' }}>{step.num}</div>
                 {/* Icon */}
-                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 relative z-10"
-                  style={{ background: step.color, boxShadow: `0 0 20px ${step.color}80`, color: '#fff' }}>
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 relative z-10"
+                  style={{ background: step.color, boxShadow: `0 8px 20px ${step.color}40`, color: '#fff' }}>
                   {step.icon}
                 </div>
-                <h3 className="font-display font-bold text-xl mb-2" style={{ color: DH }}>{step.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: DB }}>{step.desc}</p>
+                <h3 className="font-display font-bold text-2xl mb-3" style={{ color: LH }}>{step.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: LB }}>{step.desc}</p>
                 {/* Bottom accent */}
-                <div className="mt-5 h-0.5 rounded-full mx-auto w-10" style={{ background: step.color }} />
+                <div className="mt-6 h-1 rounded-full mx-auto w-12" style={{ background: step.color }} />
               </div>
             ))}
           </div>
@@ -296,7 +409,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════
           4 — PROGRAMS  ░ LIGHT
       ═══════════════════════════════════════════════════ */}
-      <section className="py-28" style={{ background: L2, borderTop: `1px solid ${LBR}` }}>
+      <section className="py-12 md:py-16" style={{ background: '#ffffff', borderTop: `1px solid ${LBR}` }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-6">
             <div>
@@ -304,20 +417,36 @@ export default function Home() {
                 style={{ background: '#ffe8e8', color: R }}>
                 <Award className="w-3 h-3" /> Programs
               </div>
-              <h2 className="font-display font-black leading-tight" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: LH, maxWidth: '36rem' }}>
-                Everything you need to become a builder.
+              <h2 className="font-display font-black leading-tight" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: LH }}>
+                Design. Code. Launch.
               </h2>
             </div>
-            <Link href="/programs" className="shrink-0 h-12 px-7 rounded-full font-bold flex items-center gap-2 transition-all hover:-translate-y-0.5"
-              style={{ background: R, color: '#fff' }}>
-              All Programs <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-          <p className="mb-14 text-base leading-relaxed" style={{ color: LB, maxWidth: '48rem' }}>
-            From branding to AI — a comprehensive curriculum built around real skills that real builders use every day.
-          </p>
+            
+            <div className="flex items-center gap-3 shrink-0">
+              <button onClick={() => { const s = document.getElementById('prog-slider'); if(s) s.scrollBy({left:-350, behavior:'smooth'}); }} 
+                className="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-sm bg-white"
+                style={{ border: `1px solid ${LBR}`, color: '#222' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              
+              <button onClick={() => { const s = document.getElementById('prog-slider'); if(s) s.scrollBy({left:350, behavior:'smooth'}); }} 
+                className="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-sm bg-white"
+                style={{ border: `1px solid ${LBR}`, color: '#222' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <Link href="/programs" className="ml-2 shrink-0 h-12 px-7 rounded-full font-bold flex items-center gap-2 transition-all hover:-translate-y-0.5 shadow-md"
+                style={{ background: R, color: '#fff' }}>
+                All Programs <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div> {/* Close header flex */}
+        </div> {/* Close max-w-7xl */}
+
+        {/* Full-width slider wrapper */}
+        <div className="w-full">
+
+          <div id="prog-slider" className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:gap-6 pb-12 pt-4 pl-6 xl:pl-[calc(50vw_-_40rem_+_1.5rem)] pr-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {[
               { icon:<Fingerprint className="w-5 h-5" />, tag:'Foundation', title:'Branding',              desc:'Brand identity — logo, color, voice, and positioning.',          topics:['Brand Strategy','Logo Design','Color Theory','Brand Voice'] },
               { icon:<Paintbrush className="w-5 h-5" />,  tag:'Foundation', title:'Design',                desc:'Digital design principles and interfaces people love to use.',   topics:['UI Design','UX Research','Figma','Design Systems'] },
@@ -333,45 +462,52 @@ export default function Home() {
               { icon:<BrainCircuit className="w-5 h-5" />, tag:'AI',         title:'AI & Automation',      desc:'Build intelligent products and automate workflows.',             topics:['AI APIs','LLM Apps','Prompt Eng.'] },
               { icon:<Bot className="w-5 h-5" />,          tag:'AI',         title:'AI Product Building',  desc:'Ship full AI-powered products used by real people.',             topics:['RAG Systems','Chatbots','AI SaaS'] },
             ].map((prog, i) => {
-              const tagMeta: Record<string, { color: string; bg: string }> = {
-                Foundation:{ color:'#a80000', bg:'#fff0f0' },
-                Web:       { color:'#c10000', bg:'#fff0f0' },
-                Core:      { color:'#8e0000', bg:'#fff0f0' },
-                Mobile:    { color:'#c10000', bg:'#fff0f0' },
-                Desktop:   { color:'#a80000', bg:'#fff0f0' },
-                Infra:     { color:'#8e0000', bg:'#fff0f0' },
-                Business:  { color:'#a80000', bg:'#fff0f0' },
-                AI:        { color: R,        bg:'#ffe0e0' },
-              };
-              const tm = tagMeta[prog.tag] ?? { color: R, bg: '#fff0f0' };
+              const bgImg = i % 2 === 0 ? '/hero.jpg' : '/team.jpg';
+              
               return (
-                <div key={i} className="p-6 rounded-2xl flex flex-col cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group" style={LC}>
-                  {/* Header row */}
-                  <div className="flex items-center justify-between mb-5">
-                    <span className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full"
-                      style={{ background: tm.bg, color: tm.color }}>
-                      {prog.tag}
-                    </span>
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors group-hover:scale-110 transition-transform"
-                      style={{ background: LIB, color: R }}>
-                      {prog.icon}
+                <div key={i} className="relative w-[280px] sm:w-[320px] shrink-0 h-[480px] rounded-3xl overflow-hidden snap-start group cursor-pointer shadow-xl">
+                  {/* Background Image */}
+                  <Image src={bgImg} fill className="object-cover transition-transform duration-700 group-hover:scale-105" alt={prog.title} />
+                  
+                  {/* Dark Gradient Overlay for readability */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-black/90 z-10 pointer-events-none" />
+                  
+                  {/* Content Container */}
+                  <div className="relative z-20 p-7 flex flex-col h-full justify-between pointer-events-none">
+                    
+                    {/* Top Text */}
+                    <div>
+                      <p className="text-[11px] font-semibold tracking-wider text-gray-300 mb-2 uppercase">{prog.tag}</p>
+                      <h3 className="font-display font-bold text-3xl md:text-4xl text-white leading-[1.1]">{prog.title}.</h3>
                     </div>
-                  </div>
-                  <h3 className="font-display font-bold text-lg mb-2" style={{ color: LH }}>{prog.title}</h3>
-                  <p className="text-sm leading-relaxed mb-4 flex-1" style={{ color: LB }}>{prog.desc}</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {prog.topics.map(t => (
-                      <span key={t} className="text-[11px] px-2.5 py-1 rounded-full font-medium"
-                        style={{ background: '#ffe8e8', color: Rd, border: '1px solid #f5c0c0' }}>
-                        {t}
-                      </span>
-                    ))}
+                    
+                    {/* Bottom Info & Button */}
+                    <div className="flex items-end justify-between w-full">
+                       <div className="flex flex-col gap-2">
+                          {prog.topics.slice(0,2).map(t => (
+                             <span key={t} className="text-[10px] text-white/90 font-bold tracking-wide bg-white/10 px-3 py-1.5 rounded-lg w-fit backdrop-blur-md border border-white/10">
+                               {t}
+                             </span>
+                          ))}
+                       </div>
+                       
+                       {/* Plus Icon Button */}
+                       <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0 group-hover:bg-white/40 transition-colors shadow-lg border border-white/10 pointer-events-auto">
+                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                           <path d="M12 5v14M5 12h14"/>
+                         </svg>
+                       </div>
+                    </div>
+                    
                   </div>
                 </div>
               );
             })}
           </div>
+        </div> {/* Close full-width wrapper */}
 
+        {/* Re-open max-w-7xl for AI banner */}
+        <div className="max-w-7xl mx-auto px-6">
           {/* AI banner */}
           <div className="mt-8 p-7 rounded-2xl flex flex-col md:flex-row items-center gap-5"
             style={{ background: '#1a0000', border: '1px solid #5a0000' }}>
@@ -394,7 +530,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════
           5 — REAL PROJECTS  ░ DARK
       ═══════════════════════════════════════════════════ */}
-      <section className="py-28" style={{ background: D, borderTop: '1px solid #1a0000' }}>
+      <section className="py-12 md:py-16" style={{ background: D, borderTop: '1px solid #1a0000' }}>
         <div className="max-w-7xl mx-auto px-6">
 
           {/* Section header */}
@@ -405,7 +541,7 @@ export default function Home() {
                 <Blocks className="w-3 h-3" /> Real Work
               </div>
               <h2 className="font-display font-black leading-tight mb-5"
-                style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: DH }}>
+                style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: DH }}>
                 Don't just learn.{' '}
                 <span style={{ backgroundClip:'text', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
                   backgroundImage:`linear-gradient(135deg, ${R}, #8e0000)` }}>
@@ -482,7 +618,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════
           6 — VOLUNTEER  ░ LIGHT
       ═══════════════════════════════════════════════════ */}
-      <section className="py-28" style={{ background: L, borderTop: `1px solid ${LBR}` }}>
+      <section className="py-12 md:py-16" style={{ background: L, borderTop: `1px solid ${LBR}` }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
 
@@ -492,7 +628,7 @@ export default function Home() {
                 <Heart className="w-3 h-3" /> Volunteer
               </div>
               <h2 className="font-display font-black leading-tight mb-6"
-                style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: LH }}>
+                style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: LH }}>
                 Your skills can create more than a career.
               </h2>
               <p className="text-base leading-relaxed mb-8" style={{ color: LB }}>
@@ -557,14 +693,14 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════
           7 — WHY JOIN  ░ DARK
       ═══════════════════════════════════════════════════ */}
-      <section className="py-28" style={{ background: D, borderTop: '1px solid #1a0000' }}>
+      <section className="py-12 md:py-16" style={{ background: D, borderTop: '1px solid #1a0000' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto mb-20">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
               style={{ background: DIB, color: R, border: `1px solid #3a0000` }}>
               <Star className="w-3 h-3" /> Why Join
             </div>
-            <h2 className="font-display font-black leading-tight" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: DH }}>
+            <h2 className="font-display font-black leading-tight" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: DH }}>
               More than training. A place to become a builder.
             </h2>
           </div>
@@ -597,7 +733,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════
           8 — CTA BANNER  ░ RED
       ═══════════════════════════════════════════════════ */}
-      <section className="py-24 relative overflow-hidden" style={{ background: R }}>
+      <section className="py-12 md:py-16 relative overflow-hidden" style={{ background: R }}>
         <div className="absolute inset-0 pointer-events-none opacity-10"
           style={{ backgroundImage:'linear-gradient(rgba(255,255,255,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.1) 1px,transparent 1px)', backgroundSize:'40px 40px' }} />
         <div className="absolute right-0 top-0 bottom-0 w-1/2 opacity-5 pointer-events-none">
@@ -610,7 +746,7 @@ export default function Home() {
             <Sparkles className="w-4 h-4" /> Applications open now
           </div>
           <h2 className="font-display font-black leading-tight mb-6"
-            style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', color: '#fff1f1' }}>
+            style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: '#fff1f1' }}>
             Technology becomes meaningful when you use it to solve real problems.
           </h2>
           <p className="text-lg mb-10 leading-relaxed" style={{ color: 'rgba(255,241,241,0.75)' }}>
